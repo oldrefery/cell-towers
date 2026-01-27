@@ -2,13 +2,9 @@ const comm = new TowerCommunication();
 let currentTower = null;
 
 async function loadTowerInfo(towerId) {
-    console.log('loadTowerInfo called for:', towerId);
-
     try {
-        console.log('Fetching towers data...');
         const response = await fetch('data/towers.geojson');
         const data = await response.json();
-        console.log('Data loaded, searching for tower:', towerId);
 
         const tower = data.features.find(t => t.properties.id === towerId);
 
@@ -18,7 +14,6 @@ async function loadTowerInfo(towerId) {
             return;
         }
 
-        console.log('Tower found:', tower);
         currentTower = tower;
         displayTowerInfo(tower);
     } catch (error) {
@@ -101,20 +96,14 @@ document.getElementById('startMonitoring').addEventListener('click', () => {
 
 // Listen for tower changes from map
 comm.on('open_tower_info', (data) => {
-    console.log('Received open_tower_info event:', data);
     loadTowerInfo(data.towerId);
 });
 
 window.addEventListener('load', () => {
-    console.log('Tower info window loaded');
-
     // Check if towerId was passed via URL
     const urlParams = new URLSearchParams(window.location.search);
     const towerId = urlParams.get('towerId');
     if (towerId) {
-        console.log('Loading tower from URL:', towerId);
         loadTowerInfo(towerId);
-    } else {
-        console.log('No towerId in URL, waiting for broadcast message...');
     }
 });

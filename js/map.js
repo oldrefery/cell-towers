@@ -80,19 +80,7 @@ function renderMarkers() {
 
         // If tower info or monitor windows are open, update them on marker click
         marker.on('click', () => {
-            // Check and update tower info window
-            const infoWindow = window.open('', 'tower_info_window');
-            if (infoWindow && !infoWindow.closed && infoWindow.location.href !== 'about:blank') {
-                console.log('Tower info window is open, updating to:', props.id);
-                comm.send('open_tower_info', { towerId: props.id });
-            }
-
-            // Check and update monitor window
-            const monitorWindow = window.open('', 'monitor_window');
-            if (monitorWindow && !monitorWindow.closed && monitorWindow.location.href !== 'about:blank') {
-                console.log('Monitor window is open, switching to:', props.id);
-                comm.send('start_monitoring', { towerId: props.id });
-            }
+            comm.updateOpenWindows(props.id);
         });
 
         markersLayer.addLayer(marker);
@@ -138,7 +126,6 @@ function applyFilters() {
 }
 
 function openTowerInfo(towerId) {
-    console.log('Opening tower info for:', towerId);
     comm.openTowerInfo(towerId);
 }
 
