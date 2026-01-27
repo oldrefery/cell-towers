@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cell Tower Map - Netherlands</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📡 Cell Tower Map - Netherlands</h1>
+            <div class="stats" id="stats">
+                <span>Loading...</span>
+            </div>
+        </div>
+
+        <div class="filters">
+            <div class="filter-group">
+                <label>Network Type:</label>
+                <label><input type="checkbox" value="5G" checked> 5G</label>
+                <label><input type="checkbox" value="4G" checked> 4G</label>
+                <label><input type="checkbox" value="3G" checked> 3G</label>
+                <label><input type="checkbox" value="2G" checked> 2G</label>
+            </div>
+            <div class="filter-group">
+                <label>Operator:</label>
+                <label><input type="checkbox" value="KPN" checked> KPN</label>
+                <label><input type="checkbox" value="Vodafone" checked> Vodafone</label>
+                <label><input type="checkbox" value="T-Mobile" checked> T-Mobile</label>
+            </div>
+            <button id="applyFilters" class="btn-primary">Apply Filters</button>
+        </div>
+
+        <div id="map"></div>
+
+        <div class="legend">
+            <h4>Legend</h4>
+            <div><span class="legend-color" style="background: #00ff00;"></span> 5G</div>
+            <div><span class="legend-color" style="background: #0088ff;"></span> 4G</div>
+            <div><span class="legend-color" style="background: #ffaa00;"></span> 3G</div>
+            <div><span class="legend-color" style="background: #ff4444;"></span> 2G</div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+    <script src="js/communication.js"></script>
+    <script src="js/map.js"></script>
+</body>
+</html>

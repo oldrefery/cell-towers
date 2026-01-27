@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tower Monitoring</title>
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+    <div class="monitor-container">
+        <div class="header">
+            <h2>📊 Live Tower Monitoring</h2>
+            <div id="towerId" class="tower-id">-</div>
+        </div>
+
+        <div class="monitor-grid">
+            <div class="metric-card">
+                <div class="metric-label">Signal Strength</div>
+                <div class="metric-value" id="signalStrength">- dBm</div>
+                <div class="metric-chart" id="signalChart"></div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-label">Packet Loss</div>
+                <div class="metric-value" id="packetLoss">- %</div>
+                <div class="metric-chart" id="lossChart"></div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-label">Latency</div>
+                <div class="metric-value" id="latency">- ms</div>
+                <div class="metric-chart" id="latencyChart"></div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-label">Bandwidth</div>
+                <div class="metric-value" id="bandwidth">- Mbps</div>
+                <div class="metric-chart" id="bandwidthChart"></div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-label">Network Load</div>
+                <div class="metric-value" id="networkLoad">- %</div>
+                <div class="metric-chart" id="loadChart"></div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-label">Connected Devices</div>
+                <div class="metric-value" id="connectedDevices">-</div>
+                <div class="metric-chart" id="devicesChart"></div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-label">Temperature</div>
+                <div class="metric-value" id="temperature">- °C</div>
+                <div class="metric-chart" id="tempChart"></div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-label">Uptime</div>
+                <div class="metric-value" id="uptime">-</div>
+                <div class="metric-info" id="uptimeInfo">System running</div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button id="pauseBtn" class="btn-secondary">⏸️ Pause</button>
+            <button id="resetBtn" class="btn-secondary">🔄 Reset</button>
+        </div>
+    </div>
+
+    <script src="js/communication.js"></script>
+    <script src="js/monitor.js"></script>
+</body>
+</html>

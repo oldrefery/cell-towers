@@ -1,0 +1,318 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+    background: #1a1a2e;
+    color: #eee;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    padding: 10px;
+}
+
+.header {
+    background: #16213e;
+    padding: 15px 20px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.header h1, .header h2 {
+    margin: 0;
+    font-size: 24px;
+}
+
+.stats {
+    display: flex;
+    gap: 20px;
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+.stats span {
+    padding: 5px 10px;
+    background: #0f3460;
+    border-radius: 4px;
+}
+
+.filters {
+    background: #16213e;
+    padding: 15px 20px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.filter-group {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.filter-group label:first-child {
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+#map {
+    flex: 1;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #0f3460;
+}
+
+.legend {
+    position: absolute;
+    bottom: 30px;
+    right: 20px;
+    background: rgba(22, 33, 62, 0.95);
+    padding: 15px;
+    border-radius: 8px;
+    font-size: 14px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.legend h4 {
+    margin: 0 0 10px 0;
+}
+
+.legend div {
+    display: flex;
+    align-items: center;
+    margin: 5px 0;
+}
+
+.legend-color {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    margin-right: 8px;
+    border: 2px solid white;
+}
+
+.btn-primary {
+    background: #0088ff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    transition: background 0.2s;
+}
+
+.btn-primary:hover {
+    background: #0066cc;
+}
+
+.btn-primary:disabled {
+    background: #555;
+    cursor: not-allowed;
+}
+
+.btn-secondary {
+    background: #555;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.2s;
+}
+
+.btn-secondary:hover {
+    background: #666;
+}
+
+.popup-content {
+    min-width: 200px;
+}
+
+.popup-content h3 {
+    margin: 0 0 10px 0;
+    color: #0088ff;
+}
+
+.popup-content p {
+    margin: 5px 0;
+    color: #333;
+}
+
+.popup-content button {
+    margin-top: 10px;
+    width: 100%;
+}
+
+/* Tower Info Window */
+.info-container {
+    padding: 20px;
+    max-width: 600px;
+    min-height: 100vh;
+    background: #1a1a2e;
+}
+
+.tower-details {
+    background: #16213e;
+    padding: 20px;
+    border-radius: 8px;
+    margin: 20px 0;
+}
+
+.info-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.info-section h3 {
+    margin: 0 0 15px 0;
+    color: #0088ff;
+    font-size: 16px;
+    border-bottom: 2px solid #0f3460;
+    padding-bottom: 8px;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid #0f3460;
+}
+
+.info-row:last-child {
+    border-bottom: none;
+}
+
+.label {
+    color: #aaa;
+    font-weight: 500;
+}
+
+.value {
+    font-weight: bold;
+    text-align: right;
+}
+
+.badge {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.badge-5g {
+    background: #00ff00;
+    color: #000;
+}
+
+.badge-4g {
+    background: #0088ff;
+    color: #fff;
+}
+
+.badge-3g {
+    background: #ffaa00;
+    color: #000;
+}
+
+.badge-2g {
+    background: #ff4444;
+    color: #fff;
+}
+
+.badge-active {
+    background: #00ff00;
+    color: #000;
+}
+
+.badge-maintenance {
+    background: #ff4444;
+    color: #fff;
+}
+
+.actions {
+    text-align: center;
+}
+
+/* Monitor Window */
+.monitor-container {
+    padding: 20px;
+    background: #1a1a2e;
+    min-height: 100vh;
+}
+
+.tower-id {
+    font-size: 14px;
+    color: #0088ff;
+    margin-top: 5px;
+}
+
+.monitor-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.metric-card {
+    background: #16213e;
+    padding: 15px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+}
+
+.metric-label {
+    font-size: 12px;
+    color: #aaa;
+    margin-bottom: 5px;
+}
+
+.metric-value {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    transition: color 0.3s;
+}
+
+.metric-chart {
+    height: 40px;
+    display: flex;
+    align-items: flex-end;
+    gap: 2px;
+    margin-top: auto;
+}
+
+.chart-bar {
+    flex: 1;
+    background: linear-gradient(to top, #0088ff, #00ffff);
+    border-radius: 2px 2px 0 0;
+    min-height: 2px;
+    transition: height 0.3s ease;
+}
+
+.metric-info {
+    font-size: 12px;
+    color: #aaa;
+    margin-top: 5px;
+}
+
+.controls {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 20px;
+}
