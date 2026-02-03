@@ -90,8 +90,9 @@ class TowerCommunication {
         const height = 700;
         const { left, top } = await this.getWindowPosition(width, height, this.preferSecondary);
 
+        const infoUrl = `tower-info.html?towerId=${encodeURIComponent(towerId)}`;
         this.infoWindow = window.open(
-            'tower-info.html',
+            infoUrl,
             'tower_info_window',
             `width=${width},height=${height},left=${left},top=${top}`
         );
@@ -121,8 +122,9 @@ class TowerCommunication {
         const height = 600;
         const { left, top } = await this.getWindowPosition(width, height, this.preferSecondary);
 
+        const monitorUrl = `monitor.html?towerId=${encodeURIComponent(towerId)}`;
         this.monitorWindow = window.open(
-            'monitor.html',
+            monitorUrl,
             'monitor_window',
             `width=${width},height=${height},left=${left},top=${top}`
         );
