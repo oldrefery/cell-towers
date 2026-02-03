@@ -3,47 +3,146 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cell Tower Map - Netherlands</title>
+    <title>IOS Map - Cell Tower Intelligence</title>
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
     <link rel="stylesheet" href="css/style.css" />
 </head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h1>📡 Cell Tower Map - Netherlands</h1>
-            <div class="stats" id="stats">
-                <span>Loading...</span>
+<body class="ios-app">
+    <div class="app-shell">
+        <header class="menu-bar">
+            <div class="brand">
+                <span class="brand-mark">IOS</span>
+                <span class="brand-title">Integrated Optimisation Suite</span>
             </div>
-        </div>
-
-        <div class="filters">
-            <div class="filter-group">
-                <label>Network Type:</label>
-                <label><input type="checkbox" value="5G" checked> 5G</label>
-                <label><input type="checkbox" value="4G" checked> 4G</label>
-                <label><input type="checkbox" value="3G" checked> 3G</label>
-                <label><input type="checkbox" value="2G" checked> 2G</label>
+            <nav class="menu-items">
+                <button class="menu-item">File</button>
+                <button class="menu-item">Tools</button>
+                <button class="menu-item">Settings</button>
+                <button class="menu-item">Help</button>
+            </nav>
+            <div class="menu-status">
+                <div class="status-dot"></div>
+                <span>Server: NL-AMS-01</span>
+                <label class="menu-toggle">
+                    <input id="preferSecondary" type="checkbox" />
+                    <span>Second Screen</span>
+                </label>
+                <button id="openConsole" class="menu-item ghost">Open Console</button>
             </div>
-            <div class="filter-group">
-                <label>Operator:</label>
-                <label><input type="checkbox" value="KPN" checked> KPN</label>
-                <label><input type="checkbox" value="Vodafone" checked> Vodafone</label>
-                <label><input type="checkbox" value="T-Mobile" checked> T-Mobile</label>
-            </div>
-            <button id="applyFilters" class="btn-primary">Apply Filters</button>
-        </div>
+        </header>
 
-        <div id="map"></div>
+        <div class="workspace">
+            <aside class="explorer-bar">
+                <div class="explorer-header">
+                    <div class="explorer-title">Explorer Bar</div>
+                    <div class="explorer-subtitle">Network &amp; Analysis</div>
+                </div>
 
-        <div class="legend">
-            <h4>Legend</h4>
-            <div><span class="legend-color" style="background: #00ff00;"></span> 5G</div>
-            <div><span class="legend-color" style="background: #0088ff;"></span> 4G</div>
-            <div><span class="legend-color" style="background: #ffaa00;"></span> 3G</div>
-            <div><span class="legend-color" style="background: #ff4444;"></span> 2G</div>
+                <details open class="explorer-section">
+                    <summary>Network Info</summary>
+                    <div class="explorer-body">
+                        <label class="field-label">Date</label>
+                        <input class="field-input" type="date" value="2026-01-28" />
+                        <button class="btn-primary wide">Get Networks</button>
+                        <button class="btn-secondary wide">Network State</button>
+                        <div class="status-strip">Status: ready</div>
+                    </div>
+                </details>
+
+                <details open class="explorer-section">
+                    <summary>Layer Filters</summary>
+                    <div class="explorer-body">
+                        <div class="filter-group">
+                            <label class="field-label">Network Type</label>
+                            <label><input type="checkbox" value="5G" checked> 5G</label>
+                            <label><input type="checkbox" value="4G" checked> 4G</label>
+                            <label><input type="checkbox" value="3G" checked> 3G</label>
+                            <label><input type="checkbox" value="2G" checked> 2G</label>
+                        </div>
+                        <div class="filter-group">
+                            <label class="field-label">Operator</label>
+                            <label><input type="checkbox" value="KPN" checked> KPN</label>
+                            <label><input type="checkbox" value="Vodafone" checked> Vodafone</label>
+                            <label><input type="checkbox" value="T-Mobile" checked> T-Mobile</label>
+                        </div>
+                        <button id="applyFilters" class="btn-primary wide">Apply Filters</button>
+                    </div>
+                </details>
+
+                <details class="explorer-section">
+                    <summary>Neighbor Info</summary>
+                    <div class="explorer-body">
+                        <label class="field-label">Technology</label>
+                        <select class="field-input">
+                            <option>2G</option>
+                            <option>3G</option>
+                            <option selected>4G</option>
+                            <option>5G</option>
+                        </select>
+                        <label class="field-label">Direction</label>
+                        <select class="field-input">
+                            <option>Intra</option>
+                            <option>Inter</option>
+                        </select>
+                        <label class="field-label">Cell ID</label>
+                        <input class="field-input" placeholder="Enter Cell ID" />
+                        <button class="btn-secondary wide">Get</button>
+                    </div>
+                </details>
+
+                <details class="explorer-section">
+                    <summary>Search Tool</summary>
+                    <div class="explorer-body">
+                        <label class="field-label">Geocoder</label>
+                        <input class="field-input" placeholder="Address, postcode, POI" />
+                        <label class="field-label">Cell Search</label>
+                        <input class="field-input" placeholder="Cell ID" />
+                        <button class="btn-secondary wide">Search</button>
+                    </div>
+                </details>
+            </aside>
+
+            <main class="map-shell">
+                <div class="map-toolbar">
+                    <button class="tool-btn" title="Open Workspace">📂</button>
+                    <button class="tool-btn" title="Save Workspace">💾</button>
+                    <button class="tool-btn" title="Layer Control">🧭</button>
+                    <button class="tool-btn" title="Map Grid">🗂️</button>
+                    <div class="tool-divider"></div>
+                    <button class="tool-btn" title="Select">⬚</button>
+                    <button class="tool-btn" title="Measure">📏</button>
+                    <button class="tool-btn" title="Draw">✏️</button>
+                    <div class="tool-divider"></div>
+                    <button class="tool-btn" title="Legend">🗺️</button>
+                    <button class="tool-btn" title="Network State">⚡</button>
+                    <button class="tool-btn" title="Clear Layers">🧹</button>
+                </div>
+
+                <div class="map-frame">
+                    <div class="map-header">
+                        <div class="map-title">IOS Map Window</div>
+                        <div class="stats" id="stats">
+                            <span>Loading...</span>
+                        </div>
+                    </div>
+                    <div id="map"></div>
+                    <div class="legend">
+                        <h4>Legend</h4>
+                        <div><span class="legend-color" style="background: #00ff00;"></span> 5G</div>
+                        <div><span class="legend-color" style="background: #0088ff;"></span> 4G</div>
+                        <div><span class="legend-color" style="background: #ffaa00;"></span> 3G</div>
+                        <div><span class="legend-color" style="background: #ff4444;"></span> 2G</div>
+                    </div>
+                    <div class="status-bar">
+                        <span>Workspace: NL_Core_01</span>
+                        <span>Layers: 5 active</span>
+                        <span>Zoom: 8</span>
+                    </div>
+                </div>
+            </main>
         </div>
     </div>
 

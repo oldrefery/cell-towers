@@ -6,20 +6,25 @@
     <title>Tower Information</title>
     <link rel="stylesheet" href="css/style.css" />
 </head>
-<body>
-    <div class="info-container">
-        <div class="header">
-            <h2>📡 Tower Information</h2>
-        </div>
+<body class="ios-app">
+    <div class="app-shell">
+        <div class="map-frame">
+            <div class="map-header">
+                <div class="map-title">Tower Information</div>
+                <div class="stats" id="towerMeta">
+                    <span>Status: -</span>
+                </div>
+            </div>
 
-        <div id="towerDetails" class="tower-details">
-            <p>Loading tower information...</p>
-        </div>
+            <div id="towerDetails" class="explorer-bar">
+                <p>Loading tower information...</p>
+            </div>
 
-        <div class="actions">
-            <button id="startMonitoring" class="btn-primary" disabled>
-                🎯 Open Live Monitoring
-            </button>
+            <div class="status-bar">
+                <span>View: Details</span>
+                <button id="startMonitoring" class="btn-primary" disabled>Open Live Monitoring</button>
+                <span>Source: Live feed</span>
+            </div>
         </div>
     </div>
 

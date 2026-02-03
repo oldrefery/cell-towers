@@ -8,21 +8,66 @@ class TowerCommunication {
         this.listeners = new Map();
         this.infoWindow = null;
         this.monitorWindow = null;
+        this.consoleWindow = null;
+        this.preferSecondary = this.getPreference();
 
         this.channel.onmessage = (event) => {
             const { type, data } = event.data;
+            console.debug('[TowerComm] recv', type, data);
             if (this.listeners.has(type)) {
                 this.listeners.get(type).forEach(callback => callback(data));
             }
         };
     }
 
+    getPreference() {
+        const stored = localStorage.getItem('ios_prefer_secondary');
+        return stored === 'true';
+    }
+
+    setPreferSecondary(value) {
+        this.preferSecondary = Boolean(value);
+        localStorage.setItem('ios_prefer_secondary', this.preferSecondary ? 'true' : 'false');
+    }
+
+    async getWindowPosition(width, height, preferSecondary) {
+        if (!preferSecondary) {
+            return {
+                left: window.screenX + 40,
+                top: window.screenY + 40
+            };
+        }
+
+        if ('getScreenDetails' in window) {
+            try {
+                const permission = await navigator.permissions.query({ name: 'window-management' });
+                if (permission.state === 'granted' || permission.state === 'prompt') {
+                    const details = await window.getScreenDetails();
+                    const target = details.screens.find(screen => screen !== details.currentScreen) || details.currentScreen;
+                    return {
+                        left: Math.round(target.availLeft + Math.max(0, (target.availWidth - width) / 2)),
+                        top: Math.round(target.availTop + Math.max(0, (target.availHeight - height) / 2))
+                    };
+                }
+            } catch (error) {
+                console.warn('Window placement not available, falling back to default.', error);
+            }
+        }
+
+        return {
+            left: window.screenX + window.outerWidth + 20,
+            top: window.screenY + 20
+        };
+    }
+
     send(type, data) {
-        this.channel.postMessage({
+        const message = {
             type,
             data,
             timestamp: Date.now()
-        });
+        };
+        console.debug('[TowerComm] send', message);
+        this.channel.postMessage(message);
     }
 
     on(type, callback) {
@@ -32,7 +77,7 @@ class TowerCommunication {
         this.listeners.get(type).push(callback);
     }
 
-    openTowerInfo(towerId) {
+    async openTowerInfo(towerId) {
         // Check if window already exists and is still open
         if (this.infoWindow && !this.infoWindow.closed) {
             this.infoWindow.focus();
@@ -43,8 +88,7 @@ class TowerCommunication {
         // Open new window
         const width = 600;
         const height = 700;
-        const left = window.screenX + window.outerWidth;
-        const top = window.screenY;
+        const { left, top } = await this.getWindowPosition(width, height, this.preferSecondary);
 
         this.infoWindow = window.open(
             'tower-info.html',
@@ -64,7 +108,7 @@ class TowerCommunication {
         }
     }
 
-    openMonitor(towerId) {
+    async openMonitor(towerId) {
         // Check if window already exists and is still open
         if (this.monitorWindow && !this.monitorWindow.closed) {
             this.monitorWindow.focus();
@@ -75,8 +119,7 @@ class TowerCommunication {
         // Open new window
         const width = 800;
         const height = 600;
-        const left = window.screenX + window.outerWidth + 620;
-        const top = window.screenY;
+        const { left, top } = await this.getWindowPosition(width, height, this.preferSecondary);
 
         this.monitorWindow = window.open(
             'monitor.html',
@@ -94,16 +137,31 @@ class TowerCommunication {
         }
     }
 
-    updateOpenWindows(towerId) {
-        // Update tower info window if open
-        if (this.infoWindow && !this.infoWindow.closed) {
-            this.send('open_tower_info', { towerId });
+    async openConsole() {
+        if (this.consoleWindow && !this.consoleWindow.closed) {
+            this.consoleWindow.focus();
+            return;
         }
 
-        // Update monitor window if open
-        if (this.monitorWindow && !this.monitorWindow.closed) {
-            this.send('start_monitoring', { towerId });
+        const width = 1100;
+        const height = 760;
+        const { left, top } = await this.getWindowPosition(width, height, this.preferSecondary);
+
+        this.consoleWindow = window.open(
+            'console.html',
+            'console_window',
+            `width=${width},height=${height},left=${left},top=${top}`
+        );
+
+        if (this.consoleWindow) {
+            this.consoleWindow.focus();
         }
+    }
+
+    updateOpenWindows(towerId) {
+        // Broadcast to any open windows (map may not own their references).
+        this.send('open_tower_info', { towerId });
+        this.send('start_monitoring', { towerId });
     }
 
     close() {

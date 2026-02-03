@@ -105,11 +105,16 @@ function updateUptime() {
 
     document.getElementById('uptime').textContent =
         `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    const statusEl = document.getElementById('uptimeStatus');
+    if (statusEl) {
+        statusEl.textContent = isPaused ? 'Paused' : 'System running';
+    }
 }
 
 function startMonitoring(towerId) {
+    console.debug('[Monitor] startMonitoring', towerId);
     currentTowerId = towerId;
-    document.getElementById('towerId').textContent = `Tower: ${towerId}`;
+    document.getElementById('towerId').innerHTML = `<span>Tower: ${towerId}</span>`;
 
     // Clear existing interval if any
     if (monitoringInterval) {
@@ -145,6 +150,13 @@ document.getElementById('resetBtn').addEventListener('click', () => {
 
 // Listen for monitoring requests (including tower changes)
 comm.on('start_monitoring', (data) => {
+    console.debug('[Monitor] recv start_monitoring', data);
+    startMonitoring(data.towerId);
+});
+
+// Fallback: if only tower-info events are sent, sync monitoring too.
+comm.on('open_tower_info', (data) => {
+    console.debug('[Monitor] recv open_tower_info', data);
     startMonitoring(data.towerId);
 });
 

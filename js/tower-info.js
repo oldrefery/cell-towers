@@ -27,64 +27,41 @@ function displayTowerInfo(tower) {
     const coords = tower.geometry.coordinates;
 
     const detailsHTML = `
-        <div class="info-grid">
-            <div class="info-section">
-                <h3>Basic Information</h3>
-                <div class="info-row">
-                    <span class="label">Tower ID:</span>
-                    <span class="value">${props.id}</span>
-                </div>
-                <div class="info-row">
-                    <span class="label">Operator:</span>
-                    <span class="value">${props.operator}</span>
-                </div>
-                <div class="info-row">
-                    <span class="label">Network Type:</span>
-                    <span class="value badge badge-${props.networkType.toLowerCase()}">${props.networkType}</span>
-                </div>
-                <div class="info-row">
-                    <span class="label">Status:</span>
-                    <span class="value badge ${props.status === 'active' ? 'badge-active' : 'badge-maintenance'}">
-                        ${props.status.toUpperCase()}
-                    </span>
-                </div>
+        <details open class="explorer-section">
+            <summary>Basic Information</summary>
+            <div class="explorer-body">
+                <div class="status-strip"><span class="field-label">Tower ID</span> ${props.id}</div>
+                <div class="status-strip"><span class="field-label">Operator</span> ${props.operator}</div>
+                <div class="status-strip"><span class="field-label">Network Type</span> ${props.networkType}</div>
+                <div class="status-strip"><span class="field-label">Status</span> ${props.status.toUpperCase()}</div>
             </div>
+        </details>
 
-            <div class="info-section">
-                <h3>Technical Specifications</h3>
-                <div class="info-row">
-                    <span class="label">Frequency:</span>
-                    <span class="value">${props.frequency}</span>
-                </div>
-                <div class="info-row">
-                    <span class="label">Coverage Radius:</span>
-                    <span class="value">${(props.coverageRadius / 1000).toFixed(1)} km</span>
-                </div>
-                <div class="info-row">
-                    <span class="label">Max Capacity:</span>
-                    <span class="value">${props.maxCapacity} devices</span>
-                </div>
-                <div class="info-row">
-                    <span class="label">Installed:</span>
-                    <span class="value">${props.installed}</span>
-                </div>
+        <details open class="explorer-section">
+            <summary>Technical Specifications</summary>
+            <div class="explorer-body">
+                <div class="status-strip"><span class="field-label">Frequency</span> ${props.frequency}</div>
+                <div class="status-strip"><span class="field-label">Coverage Radius</span> ${(props.coverageRadius / 1000).toFixed(1)} km</div>
+                <div class="status-strip"><span class="field-label">Max Capacity</span> ${props.maxCapacity} devices</div>
+                <div class="status-strip"><span class="field-label">Installed</span> ${props.installed}</div>
             </div>
+        </details>
 
-            <div class="info-section">
-                <h3>Location</h3>
-                <div class="info-row">
-                    <span class="label">City:</span>
-                    <span class="value">${props.city}</span>
-                </div>
-                <div class="info-row">
-                    <span class="label">Coordinates:</span>
-                    <span class="value">${coords[1].toFixed(4)}°N, ${coords[0].toFixed(4)}°E</span>
-                </div>
+        <details open class="explorer-section">
+            <summary>Location</summary>
+            <div class="explorer-body">
+                <div class="status-strip"><span class="field-label">City</span> ${props.city}</div>
+                <div class="status-strip"><span class="field-label">Coordinates</span> ${coords[1].toFixed(4)}°N, ${coords[0].toFixed(4)}°E</div>
             </div>
-        </div>
+        </details>
     `;
 
     document.getElementById('towerDetails').innerHTML = detailsHTML;
+    document.getElementById('towerMeta').innerHTML = `
+        <span>${props.networkType}</span>
+        <span>${props.operator}</span>
+        <span>${props.status.toUpperCase()}</span>
+    `;
     document.getElementById('startMonitoring').disabled = false;
 }
 

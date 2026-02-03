@@ -27,6 +27,7 @@ function initMap() {
     });
 
     loadTowers();
+    initWindowControls();
 }
 
 async function loadTowers() {
@@ -44,13 +45,35 @@ async function loadTowers() {
     }
 }
 
-function createMarkerIcon(networkType) {
+function getStatusColor(status) {
+    if (status === '1' || status === 1) return '#4f7d3a'; // ok
+    if (status === '2' || status === 2) return '#c9822e'; // alarms
+    if (status === '3' || status === 3) return '#b03b32'; // locked
+    return null;
+}
+
+function createMarkerIcon(networkType, status) {
     const color = COLORS[networkType];
+    const statusColor = getStatusColor(status);
+    const statusFill = statusColor ? statusColor : 'none';
+    const statusStroke = statusColor ? '#534a3f' : '#a9a39a';
+    const svg = `
+        <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="10.5" fill="${statusFill}" stroke="${statusStroke}" stroke-width="1" opacity="0.5"/>
+            <g transform="translate(12 12)">
+                <path d="M0 0 L2.8 -6.5 A7 7 0 0 0 -2.8 -6.5 Z" fill="${color}" stroke="#534a3f" stroke-width="0.6" />
+                <path d="M0 0 L6.5 2.8 A7 7 0 0 0 6.5 -2.8 Z" fill="${color}" stroke="#534a3f" stroke-width="0.6" />
+                <path d="M0 0 L-6.5 2.8 A7 7 0 0 0 -2.8 6.5 Z" fill="${color}" stroke="#534a3f" stroke-width="0.6" />
+                <circle cx="0" cy="0" r="1.4" fill="#f7f1e8" stroke="#534a3f" stroke-width="0.6"/>
+            </g>
+        </svg>
+    `;
+
     return L.divIcon({
         className: 'custom-marker',
-        html: `<div style="background-color: ${color}; width: 12px; height: 12px; border-radius: 50%; border: 2px solid white; box-shadow: 0 0 4px rgba(0,0,0,0.5);"></div>`,
-        iconSize: [12, 12],
-        iconAnchor: [6, 6]
+        html: svg,
+        iconSize: [24, 24],
+        iconAnchor: [12, 12]
     });
 }
 
@@ -62,7 +85,7 @@ function renderMarkers() {
         const props = tower.properties;
 
         const marker = L.marker([coordinates[1], coordinates[0]], {
-            icon: createMarkerIcon(props.networkType)
+            icon: createMarkerIcon(props.networkType, props.status)
         });
 
         const popupContent = `
@@ -127,6 +150,7 @@ function applyFilters() {
 
 function openTowerInfo(towerId) {
     comm.openTowerInfo(towerId);
+    comm.send('start_monitoring', { towerId });
 }
 
 // Make function globally accessible for popup buttons
@@ -135,3 +159,21 @@ window.openTowerInfo = openTowerInfo;
 document.getElementById('applyFilters').addEventListener('click', applyFilters);
 
 window.addEventListener('load', initMap);
+
+function initWindowControls() {
+    const consoleBtn = document.getElementById('openConsole');
+    const preferSecondary = document.getElementById('preferSecondary');
+
+    if (preferSecondary) {
+        preferSecondary.checked = comm.getPreference();
+        preferSecondary.addEventListener('change', (event) => {
+            comm.setPreferSecondary(event.target.checked);
+        });
+    }
+
+    if (consoleBtn) {
+        consoleBtn.addEventListener('click', () => {
+            comm.openConsole();
+        });
+    }
+}
