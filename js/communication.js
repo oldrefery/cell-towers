@@ -120,7 +120,17 @@ class TowerCommunication {
         // Open new window
         const width = 800;
         const height = 600;
-        const { left, top } = await this.getWindowPosition(width, height, this.preferSecondary);
+        let left;
+        let top;
+        if (this.infoWindow && !this.infoWindow.closed) {
+            // Keep monitor window on the same screen as the info window.
+            left = Math.round(this.infoWindow.screenX + 30);
+            top = Math.round(this.infoWindow.screenY + 30);
+        } else {
+            const pos = await this.getWindowPosition(width, height, this.preferSecondary);
+            left = pos.left;
+            top = pos.top;
+        }
 
         const monitorUrl = `monitor.html?towerId=${encodeURIComponent(towerId)}`;
         this.monitorWindow = window.open(

@@ -163,19 +163,12 @@ document.getElementById('applyFilters').addEventListener('click', applyFilters);
 window.addEventListener('load', initMap);
 
 function initWindowControls() {
-    const consoleBtn = document.getElementById('openConsole');
     const preferSecondary = document.getElementById('preferSecondary');
 
     if (preferSecondary) {
         preferSecondary.checked = comm.getPreference();
         preferSecondary.addEventListener('change', (event) => {
             comm.setPreferSecondary(event.target.checked);
-        });
-    }
-
-    if (consoleBtn) {
-        consoleBtn.addEventListener('click', () => {
-            comm.openConsole();
         });
     }
 }

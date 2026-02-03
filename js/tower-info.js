@@ -62,10 +62,14 @@ function displayTowerInfo(tower) {
         <span>${props.operator}</span>
         <span>${props.status.toUpperCase()}</span>
     `;
-    document.getElementById('startMonitoring').disabled = false;
+    document.getElementById('startMonitoring').disabled = true;
 }
 
 document.getElementById('startMonitoring').addEventListener('click', () => {
+    const btn = document.getElementById('startMonitoring');
+    if (btn && btn.disabled) {
+        return;
+    }
     if (currentTower) {
         comm.openMonitor(currentTower.properties.id);
     }

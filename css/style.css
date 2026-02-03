@@ -163,8 +163,12 @@ body {
 }
 
 .btn-primary:disabled {
-    background: #555;
+    background: #e8dfd3;
+    border-color: #bdb5ab;
+    color: var(--ios-muted);
     cursor: not-allowed;
+    opacity: 0.7;
+    pointer-events: none;
 }
 
 .btn-secondary {
