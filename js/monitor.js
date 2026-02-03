@@ -114,6 +114,9 @@ function updateUptime() {
 function startMonitoring(towerId) {
     console.debug('[Monitor] startMonitoring', towerId);
     currentTowerId = towerId;
+    if (towerId) {
+        localStorage.setItem('ios_active_tower', towerId);
+    }
     document.getElementById('towerId').innerHTML = `<span>Tower: ${towerId}</span>`;
 
     // Clear existing interval if any
@@ -163,7 +166,10 @@ comm.on('open_tower_info', (data) => {
 window.addEventListener('load', () => {
     const urlParams = new URLSearchParams(window.location.search);
     const towerId = urlParams.get('towerId');
+    const storedTower = localStorage.getItem('ios_active_tower');
     if (towerId) {
         startMonitoring(towerId);
+    } else if (storedTower) {
+        startMonitoring(storedTower);
     }
 });

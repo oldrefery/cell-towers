@@ -261,6 +261,12 @@ body {
     letter-spacing: 0.02em;
 }
 
+.menu-item:disabled {
+    color: var(--ios-muted);
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
 .menu-item:hover {
     background: rgba(155, 59, 47, 0.08);
     border-color: rgba(155, 59, 47, 0.35);
@@ -406,7 +412,7 @@ body {
 
 .map-shell {
     display: grid;
-    grid-template-columns: 54px 1fr;
+    grid-template-columns: 1fr;
     gap: 12px;
     min-height: 0;
 }

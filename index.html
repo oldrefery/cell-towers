@@ -18,10 +18,10 @@
                 <span class="brand-title">Integrated Optimisation Suite</span>
             </div>
             <nav class="menu-items">
-                <button class="menu-item">File</button>
-                <button class="menu-item">Tools</button>
-                <button class="menu-item">Settings</button>
-                <button class="menu-item">Help</button>
+                <button class="menu-item" disabled>File</button>
+                <button class="menu-item" disabled>Tools</button>
+                <button class="menu-item" disabled>Settings</button>
+                <button class="menu-item" disabled>Help</button>
             </nav>
             <div class="menu-status">
                 <div class="status-dot"></div>
@@ -41,7 +41,7 @@
                     <div class="explorer-subtitle">Network &amp; Analysis</div>
                 </div>
 
-                <details open class="explorer-section">
+                <details class="explorer-section">
                     <summary>Network Info</summary>
                     <div class="explorer-body">
                         <label class="field-label">Date</label>
@@ -72,55 +72,9 @@
                     </div>
                 </details>
 
-                <details class="explorer-section">
-                    <summary>Neighbor Info</summary>
-                    <div class="explorer-body">
-                        <label class="field-label">Technology</label>
-                        <select class="field-input">
-                            <option>2G</option>
-                            <option>3G</option>
-                            <option selected>4G</option>
-                            <option>5G</option>
-                        </select>
-                        <label class="field-label">Direction</label>
-                        <select class="field-input">
-                            <option>Intra</option>
-                            <option>Inter</option>
-                        </select>
-                        <label class="field-label">Cell ID</label>
-                        <input class="field-input" placeholder="Enter Cell ID" />
-                        <button class="btn-secondary wide">Get</button>
-                    </div>
-                </details>
-
-                <details class="explorer-section">
-                    <summary>Search Tool</summary>
-                    <div class="explorer-body">
-                        <label class="field-label">Geocoder</label>
-                        <input class="field-input" placeholder="Address, postcode, POI" />
-                        <label class="field-label">Cell Search</label>
-                        <input class="field-input" placeholder="Cell ID" />
-                        <button class="btn-secondary wide">Search</button>
-                    </div>
-                </details>
             </aside>
 
             <main class="map-shell">
-                <div class="map-toolbar">
-                    <button class="tool-btn" title="Open Workspace">📂</button>
-                    <button class="tool-btn" title="Save Workspace">💾</button>
-                    <button class="tool-btn" title="Layer Control">🧭</button>
-                    <button class="tool-btn" title="Map Grid">🗂️</button>
-                    <div class="tool-divider"></div>
-                    <button class="tool-btn" title="Select">⬚</button>
-                    <button class="tool-btn" title="Measure">📏</button>
-                    <button class="tool-btn" title="Draw">✏️</button>
-                    <div class="tool-divider"></div>
-                    <button class="tool-btn" title="Legend">🗺️</button>
-                    <button class="tool-btn" title="Network State">⚡</button>
-                    <button class="tool-btn" title="Clear Layers">🧹</button>
-                </div>
-
                 <div class="map-frame">
                     <div class="map-header">
                         <div class="map-title">IOS Map Window</div>

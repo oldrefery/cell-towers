@@ -103,6 +103,7 @@ function renderMarkers() {
 
         // If tower info or monitor windows are open, update them on marker click
         marker.on('click', () => {
+            localStorage.setItem('ios_active_tower', props.id);
             comm.updateOpenWindows(props.id);
         });
 
@@ -149,6 +150,7 @@ function applyFilters() {
 }
 
 function openTowerInfo(towerId) {
+    localStorage.setItem('ios_active_tower', towerId);
     comm.openTowerInfo(towerId);
     comm.send('start_monitoring', { towerId });
 }
